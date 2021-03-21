@@ -22,7 +22,11 @@ namespace CoronaTracker {
 
 		private void buttonSearch_Click(object sender, EventArgs e) {
 
-			this.updateImage(countryName: "Denmark");
+			if (this.updateImage(countryName: textBoxSearch.Text)) {
+				this.updateTexts(countryName: textBoxSearch.Text, totalCases: 0, newCases: 0, recoveredPersons: 0);
+			} else {
+				textBoxSearch.Text = "";
+			}
 
 		}
 
@@ -38,16 +42,22 @@ namespace CoronaTracker {
 
 		private void updateTexts(string countryName, int totalCases, int newCases, int recoveredPersons) {
 
+			labelCountry.Text = countryName;
+
 		}
 
-		private void updateImage(string countryName) {
+		private bool updateImage(string countryName) {
 			string countryCode = track.getCountryCode(countryName);
 
 			if (countryCode == "Not Found") {
-				MessageBox.Show("The country code was not found. \n Please check your spelling for mistakes", "Country Name Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+				MessageBox.Show("The country code was not found. \nPlease check your spelling for mistakes", "Country Name Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-			pictureBoxCountry.Load("https://www.countryflags.io/"+ countryCode +"/flat/64.png");
+				return false;
+			} else {
+				pictureBoxCountry.Load("https://www.countryflags.io/" + countryCode + "/flat/64.png");
+				
+				return true;
+			}
 		}
 	}
 }
