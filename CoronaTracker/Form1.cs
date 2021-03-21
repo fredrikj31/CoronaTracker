@@ -21,14 +21,18 @@ namespace CoronaTracker {
 		}
 
 		private void buttonSearch_Click(object sender, EventArgs e) {
-			
 
-			
+			this.updateImage(countryName: "Denmark");
+
 		}
 
-		private void button1_Click(object sender, EventArgs e) {
+		private void buttonGlobal_Click(object sender, EventArgs e) {
+			pictureBoxCountry.Image = Properties.Resources.Webp_net_resizeimage;
+			pictureBoxCountry.Refresh();
+
+			labelCountry.Text = "Global";
+
 			track.getGlobalStats();
-			this.updateImage(countryName: "Denmark");
 		}
 
 
@@ -37,24 +41,13 @@ namespace CoronaTracker {
 		}
 
 		private void updateImage(string countryName) {
-			string path = System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..");
-			var filename = Path.Combine(path, "CountryCode.json");
+			string countryCode = track.getCountryCode(countryName);
 
-			string countryCode = "";
-
-			if (File.Exists(filename)) {
-				string textContent = System.IO.File.ReadAllText(filename);
-				Debug.WriteLine(textContent);
-
-				JsonDocument doc = JsonDocument.Parse(textContent);
-				JsonElement root = doc.RootElement;
-
-				Debug.WriteLine(root.GetProperty("countries"));
-			} else {
-
+			if (countryCode == "Not Found") {
+				MessageBox.Show("The country code was not found. \n Please check your spelling for mistakes", "Country Name Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
-			//pictureBoxCountry.Load("");
+			pictureBoxCountry.Load("https://www.countryflags.io/"+ countryCode +"/flat/64.png");
 		}
 	}
 }
