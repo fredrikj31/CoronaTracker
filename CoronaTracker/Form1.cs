@@ -20,10 +20,14 @@ namespace CoronaTracker {
 			InitializeComponent();
 		}
 
-		private void buttonSearch_Click(object sender, EventArgs e) {
+		private void buttonSearchWithoutDate_Click(object sender, EventArgs e) {
 
-			if (this.updateImage(countryName: textBoxSearch.Text)) {
-				this.updateTexts(countryName: textBoxSearch.Text, totalCases: 0, newCases: 0, recoveredPersons: 0);
+			string inputCountry = textBoxSearch.Text;
+
+			Tracking result = track.getOverallStats(inputCountry: textBoxSearch.Text);
+
+			if (this.updateImage(countryName: result.countryName)) {
+				this.updateTexts(result.countryName, result.newConfirmed, result.totalConfirmed, result.newDeaths, result.totalDeaths, result.newRecovered, result.totalRecovered, result.dateTracked);
 			} else {
 				textBoxSearch.Text = "";
 			}
@@ -31,18 +35,25 @@ namespace CoronaTracker {
 		}
 
 		private void buttonGlobal_Click(object sender, EventArgs e) {
+			Tracking result = track.getGlobalStats();
+
+			this.updateTexts(result.countryName, result.newConfirmed, result.totalConfirmed, result.newDeaths, result.totalDeaths, result.newRecovered, result.totalRecovered, result.dateTracked);
 			pictureBoxCountry.Image = Properties.Resources.Webp_net_resizeimage;
 			pictureBoxCountry.Refresh();
-
-			labelCountry.Text = "Global";
-
-			track.getGlobalStats();
 		}
 
 
-		private void updateTexts(string countryName, int totalCases, int newCases, int recoveredPersons) {
+		private void updateTexts(string countryName, int newConfirmed, int totalConfirmed, int newDeaths, int totalDeaths, int newRecovered, int totalRecovered, DateTime dateTracked) {
 
 			labelCountry.Text = countryName;
+			labelDate.Text = dateTracked.ToString().Replace("T", " ").Replace("Z", "").Replace("-", "/");
+
+			labelNewCases.Text = String.Format("{0:n0}", newConfirmed);
+			labelTotalCases.Text = String.Format("{0:n0}", totalConfirmed);
+			labelNewDeaths.Text = String.Format("{0:n0}", newDeaths);
+			labelTotalDeaths.Text = String.Format("{0:n0}", totalDeaths);
+			labelNewRecovered.Text = String.Format("{0:n0}", newRecovered);
+			labelTotalRecovered.Text = String.Format("{0:n0}", totalRecovered);
 
 		}
 
