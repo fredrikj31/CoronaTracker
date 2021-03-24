@@ -44,7 +44,7 @@ namespace CoronaTracker {
 			this.label16 = new System.Windows.Forms.Label();
 			this.labelNewRecovered = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
-			this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
+			this.monthCalendar = new System.Windows.Forms.MonthCalendar();
 			this.buttonSearchWithDate = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCountry)).BeginInit();
@@ -247,12 +247,13 @@ namespace CoronaTracker {
 			this.label10.TabIndex = 25;
 			this.label10.Text = "New Recovered:";
 			// 
-			// monthCalendar1
+			// monthCalendar
 			// 
-			this.monthCalendar1.Location = new System.Drawing.Point(372, 43);
-			this.monthCalendar1.MaxSelectionCount = 100000;
-			this.monthCalendar1.Name = "monthCalendar1";
-			this.monthCalendar1.TabIndex = 28;
+			this.monthCalendar.Location = new System.Drawing.Point(372, 43);
+			this.monthCalendar.MaxSelectionCount = 100000;
+			this.monthCalendar.MinDate = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+			this.monthCalendar.Name = "monthCalendar";
+			this.monthCalendar.TabIndex = 28;
 			// 
 			// buttonSearchWithDate
 			// 
@@ -262,6 +263,7 @@ namespace CoronaTracker {
 			this.buttonSearchWithDate.TabIndex = 29;
 			this.buttonSearchWithDate.Text = "Search /w Date";
 			this.buttonSearchWithDate.UseVisualStyleBackColor = true;
+			this.buttonSearchWithDate.Click += new System.EventHandler(this.buttonSearchWithDate_Click);
 			// 
 			// label2
 			// 
@@ -279,7 +281,7 @@ namespace CoronaTracker {
 			this.ClientSize = new System.Drawing.Size(569, 450);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonSearchWithDate);
-			this.Controls.Add(this.monthCalendar1);
+			this.Controls.Add(this.monthCalendar);
 			this.Controls.Add(this.labelNewRecovered);
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.labelNewDeaths);
@@ -303,6 +305,7 @@ namespace CoronaTracker {
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "Form1";
 			this.Text = "Form1";
+			this.Load += new System.EventHandler(this.Form1_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCountry)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -330,7 +333,7 @@ namespace CoronaTracker {
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Label labelNewRecovered;
 		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.MonthCalendar monthCalendar1;
+		private System.Windows.Forms.MonthCalendar monthCalendar;
 		private System.Windows.Forms.Button buttonSearchWithDate;
 		private System.Windows.Forms.Label label2;
 	}

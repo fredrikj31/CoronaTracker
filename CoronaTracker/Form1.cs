@@ -43,10 +43,10 @@ namespace CoronaTracker {
 		}
 
 
-		private void updateTexts(string countryName, int newConfirmed, int totalConfirmed, int newDeaths, int totalDeaths, int newRecovered, int totalRecovered, DateTime dateTracked) {
+		private void updateTexts(string countryName, int newConfirmed, int totalConfirmed, int newDeaths, int totalDeaths, int newRecovered, int totalRecovered, string dateTracked) {
 
 			labelCountry.Text = countryName;
-			labelDate.Text = dateTracked.ToString().Replace("T", " ").Replace("Z", "").Replace("-", "/");
+			labelDate.Text = dateTracked.ToString().Replace("T", " ").Replace("Z", "").Replace("-", "/").Split('.')[0];
 
 			labelNewCases.Text = String.Format("{0:n0}", newConfirmed);
 			labelTotalCases.Text = String.Format("{0:n0}", totalConfirmed);
@@ -69,6 +69,32 @@ namespace CoronaTracker {
 				
 				return true;
 			}
+		}
+
+		private void buttonSearchWithDate_Click(object sender, EventArgs e) {
+
+			string inputCountry = textBoxSearch.Text;
+
+			// Adding 2 different formats because of api endpoint and visualization.
+			string startDateAPI = monthCalendar.SelectionRange.Start.ToString("yyyy-MM-dd");
+			string endDateAPI = monthCalendar.SelectionRange.End.ToString("yyyy-MM/dd");
+
+			string startDate = monthCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
+			string endDate = monthCalendar.SelectionRange.End.ToString("dd/MM/yyyy");
+
+			
+			Tracking result = track.getRangeStats(inputCountry: textBoxSearch.Text, startDate: startDateAPI, endDate: endDateAPI);
+
+			if (this.updateImage(countryName: textBoxSearch.Text)) {
+				this.updateTexts(result.countryName, result.newConfirmed, result.totalConfirmed, result.newDeaths, result.totalDeaths, result.newRecovered, result.totalRecovered, startDate + " to " + endDate);
+			} else {
+				textBoxSearch.Text = "";
+			}
+
+		}
+
+		private void Form1_Load(object sender, EventArgs e) {
+			monthCalendar.MaxDate = DateTime.Now.AddDays(1);
 		}
 	}
 }
