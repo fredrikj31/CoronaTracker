@@ -11,6 +11,9 @@
 # Exercise
 *.pdf
 
+# Exercise zip
+CoronaTracker.zip
+
 # User-specific files
 *.rsuser
 *.suo
