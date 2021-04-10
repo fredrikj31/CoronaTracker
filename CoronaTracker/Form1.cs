@@ -28,11 +28,15 @@ namespace CoronaTracker {
 		/// <param name="e"></param>
 		private void buttonSearchWithoutDate_Click(object sender, EventArgs e) {
 
+			// Getting the users search query.
 			string inputCountry = textBoxSearch.Text;
 
+			// Getting the data from the api, to a tracking object
 			Tracking result = track.getOverallStats(inputCountry: textBoxSearch.Text);
 
+			// Updates the image with the searched country's flag.
 			if (this.updateImage(countryName: result.countryName)) {
+				// Update the textboxes with the data that we got from the function above.
 				this.updateTexts(result.countryName, result.newConfirmed, result.totalConfirmed, result.newDeaths, result.totalDeaths, result.newRecovered, result.totalRecovered, result.dateTracked);
 			} else {
 				textBoxSearch.Text = "";
